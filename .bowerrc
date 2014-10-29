@@ -1,5 +1,5 @@
 {
   "directory": "lib/",
   "analytics": false,
-  "tmp": "/tmp",
+  "tmp": "/tmp"
 }
