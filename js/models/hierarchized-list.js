@@ -1,4 +1,6 @@
-var HierarchizedList = Backbone.Model.extend({
+var app = app || {};
+
+app.HierarchizedList = Backbone.Model.extend({
 	
 	defaults: {
 		'title' : new Date().toLocaleString()

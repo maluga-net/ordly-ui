@@ -1,3 +1,6 @@
-var model = new HierarchizedList();
-var collection = new HierarchizedListCollection([model]);
-var view = new HierarchizedListView();
+var app = app || {};
+var ENTER_KEY = 13;
+
+$(function(){
+	new app.AppView();
+});
