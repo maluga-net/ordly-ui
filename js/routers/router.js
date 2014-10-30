@@ -1,17 +1,14 @@
-var HierarchizedListsRouter = Backbone.Router.extend({
+var app = app || {};
+
+HierarchizedListsRouter = Backbone.Router.extend({
 	routes: {
-		'about' : 'showAbout',
-		'hierarchized-list/:cid' : 'showHierarchizedList'
+		':id' : 'showHierarchizedList'
 	},
 
-	showAbout: function() {
-		console.log('showAbout');
-	},
-	
-	showHierarchizedList: function(cid) {
-		console.log('showHierarchizedList, cid:'+cid);
+	showHierarchizedList: function(id) {
+		app.HierarchizedLists.trigger('showOne', {id : id});
 	} 
 });
 
-var hierarchizedListsRouter = new HierarchizedListsRouter();
+app.hierarchizedListsRouter = new HierarchizedListsRouter();
 Backbone.history.start();

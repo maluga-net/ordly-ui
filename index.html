@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Rarchy</title>
+<meta charset="UTF-8">
+<title>Rarchy</title>
 </head>
 <body>
 
@@ -10,17 +10,26 @@
 		<header>
 			<h1>Hierachized lists</h1>
 			<input id="new-hierarchized-list" placeholder="Name of the list"
-				autofocus="autofocus">
+				autofocus="autofocus" />
 		</header>
 		<section id="main">
 			<ul id="hierarchized-lists"></ul>
+			<section id="hierarchized-list"></section>
 		</section>
 		<footer id="footer"></footer>
 	</section>
 
-	<script type="text/template" id="hierarchized-list-template">
-		<a href="#/hierarchized-list/1"><%- title %></a>
+	<script type="text/template" id="hierarchized-list-navigation-template">
+		<a href="#/<%= id %>"><%= title %> (<%= items.length %>)</a>
 		<span class="destroy">X</span>
+	</script>
+
+	<script type="text/template" id="hierarchized-list-template">
+		<h2><%= title %></h2>
+		<input id="new-hierarchized-list-item" placeholder="Name of the item" />
+		<ul>
+		<% _.each(items, function(item) { %><li><%= item %> <span class="destroy">X<span></li><% }); %>
+		</ul>
 	</script>
 
 	<script src="js/lib/jquery/dist/jquery.min.js"></script>
@@ -29,12 +38,13 @@
 	<script src="js/lib/backbone.localStorage/backbone.localStorage-min.js"></script>
 
 	<script src="js/models/hierarchized-list.js"></script>
-	
+
 	<script src="js/collections/hierarchized-list-collection.js"></script>
-	
+
 	<script src="js/routers/router.js"></script>
-		
+
 	<script src="js/views/app-view.js"></script>
+	<script src="js/views/hierarchized-list-navigation-view.js"></script>
 	<script src="js/views/hierarchized-list-view.js"></script>
 
 	<script src="js/app.js"></script>

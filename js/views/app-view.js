@@ -15,6 +15,7 @@ app.AppView = Backbone.View.extend({
 		this.listenTo(app.HierarchizedLists, 'add', this.addOne);
 		this.listenTo(app.HierarchizedLists, 'reset', this.addAll);
 		this.listenTo(app.HierarchizedLists, 'all', this.render);
+		this.listenTo(app.HierarchizedLists, 'showOne', this.showOne);
 
 		app.HierarchizedLists.fetch();
 	},
@@ -28,7 +29,7 @@ app.AppView = Backbone.View.extend({
 	},
 
 	addOne : function(hierarchizedList) {
-		var view = new app.HierarchizedListView({
+		var view = new app.HierarchizedListNavigationView({
 			model : hierarchizedList
 		});
 		this.$('#hierarchized-lists').append(view.render().el);
@@ -39,10 +40,21 @@ app.AppView = Backbone.View.extend({
 		app.HierarchizedLists.each(this.addOne, this);
 	},
 
+	showOne : function(id) {
+		var hierarchizedList = app.HierarchizedLists.get(id);
+		view = new app.HierarchizedListView({
+			model : hierarchizedList
+		});
+		
+		this.$('#hierarchized-list').html(view.render().el);
+	},
+	
 	newAttributes : function() {
+		var order = app.HierarchizedLists.nextOrder();
 		return {
 			title : this.$input.val().trim(),
-			order : app.HierarchizedLists.nextOrder(),
+			order : order,
+			id : order
 		};
 	},
 
@@ -51,7 +63,7 @@ app.AppView = Backbone.View.extend({
 			return;
 		}
 
-		app.HierarchizedLists.create(this.newAttributes());
+		app.HierarchizedLists.add(this.newAttributes(), {at : 1});
 		this.$input.val('');
 	}
 });
