@@ -20,16 +20,19 @@
 	</section>
 
 	<script type="text/template" id="hierarchized-list-navigation-template">
-		<a href="#/<%= id %>"><%= title %> (<%= items.length %>)</a>
+		<a href="#/<%= id %>"><%= title %> ()</a>
 		<span class="destroy">X</span>
 	</script>
 
 	<script type="text/template" id="hierarchized-list-template">
 		<h2><%= title %></h2>
 		<input id="new-hierarchized-list-item" placeholder="Name of the item" />
-		<ul>
-		<% _.each(items, function(item) { %><li><%= item %> <span class="destroy">X<span></li><% }); %>
+		<ul id="hierarchized-list-items">
 		</ul>
+	</script>
+	
+	<script type="text/template" id="hierarchized-list-item-template">
+		<li><%= name %> <span class="destroy">X<span></li>
 	</script>
 
 	<script src="js/lib/jquery/dist/jquery.min.js"></script>
@@ -37,15 +40,19 @@
 	<script src="js/lib/backbone/backbone.js"></script>
 	<script src="js/lib/backbone.localStorage/backbone.localStorage-min.js"></script>
 
+	<script src="js/models/hierarchized-list-item.js"></script>
 	<script src="js/models/hierarchized-list.js"></script>
-
+	
 	<script src="js/collections/hierarchized-list-collection.js"></script>
 
 	<script src="js/routers/router.js"></script>
 
 	<script src="js/views/app-view.js"></script>
 	<script src="js/views/hierarchized-list-navigation-view.js"></script>
+	<script src="js/views/hierarchized-list-item-view.js"></script>
 	<script src="js/views/hierarchized-list-view.js"></script>
+
+	<script src="js/utils/logger.js"></script>
 
 	<script src="js/app.js"></script>
 </body>
