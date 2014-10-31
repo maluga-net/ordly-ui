@@ -9,6 +9,7 @@ app.HierarchizedList = Backbone.Model.extend({
 
 	initialize : function() {
 		app.logger.log('HierarchizedList model : initialize');
+		// FIXME check why this event is fired twice if listenTo is used
 		this.listenToOnce(app.HierarchizedLists, 'itemRemoved', this.removeItem);
 	},
 
