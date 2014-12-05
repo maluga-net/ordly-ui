@@ -4,7 +4,8 @@ app.HierarchizedList = Backbone.Model.extend({
 
 	defaults : {
 		'title' : new Date().toLocaleString(),
-		'items' : []
+		'items' : [],
+		'additionStrategy' : app.AdditionStrategyFactory.STRATEGY_LAST
 	},
 
 	initialize : function() {

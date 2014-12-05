@@ -10,6 +10,6 @@ app.HierarchizedListItem = Backbone.Model.extend({
 		if (attributes.name === undefined || attributes.name === '') {
 			return "Please enter a name for an item.";
 		}
-	},
+	}
 	
 });

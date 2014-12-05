@@ -6,7 +6,7 @@ app.HierarchizedListNavigationView = Backbone.View.extend({
 	template : _.template($('#hierarchized-list-navigation-template').html()),
 
 	events : {
-		'click .destroy' : 'clear',
+		'click .destroy' : 'clear'
 	},
 	
 	initialize : function() {

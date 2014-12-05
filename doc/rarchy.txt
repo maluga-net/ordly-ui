@@ -2,10 +2,10 @@ i1, i2, i3
 
 i4
 
-get strategy type from list
-get strategy object using factory
-pass existing items and new item to strategy object
-trigger event processStrategy passing strategy object
++/- get strategy type from list (or better from radio element on the page -> choosen by user)
++ get strategy object using factory
++ pass existing items and new item to strategy object
++ trigger event processStrategy passing strategy object
 
 ----
 
