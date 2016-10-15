@@ -2,16 +2,17 @@ var app = app || {};
 
 app.HierarchizedList = Backbone.Model.extend({
 
+
 	defaults : {
 		'title' : new Date().toLocaleString(),
-		'items' : [],
-		'additionStrategy' : app.AdditionStrategyFactory.STRATEGY_LAST
+		'items' : []
 	},
 
 	initialize : function() {
 		app.logger.log('HierarchizedList model : initialize');
 		// FIXME check why this event is fired twice if listenTo is used
 		this.listenToOnce(app.HierarchizedLists, 'itemRemoved', this.removeItem);
+		this.listenTo(app.HierarchizedLists, 'processStrategy', this.processStrategy);
 	},
 
 	validate : function(attributes) {
@@ -36,6 +37,11 @@ app.HierarchizedList = Backbone.Model.extend({
 		this.set('lastItem', item.get('name'));
 		this.save();
 		app.logger.log('HierarchizedList model : removeItem (' + item.get('name') + ')');
+	},
+	
+	processStrategy : function(strategy) {
+		
+		app.logger.log('Processing strategy ' + typeof(strategy) + ' for item ' + strategy.item);
 	}
 	
 });

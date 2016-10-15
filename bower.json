@@ -1,5 +1,5 @@
 {
-  "name": "Rarchy",
+  "name": "ordly ui",
   "version": "0.0.1",
   "authors": [
     "Michał Maluga <git@mi.maluga.net>"
@@ -15,11 +15,12 @@
     "tests"
   ],
   "dependencies": {
-    "backbone": "~1.1.2",
-    "jquery": "~2.1.1",
-    "backbone.localStorage": "~1.1.13"
+    "backbone": "~1.3.3",
+    "jquery": "~3.1.1",
+    "backbone.localStorage": "~1.1.13",
+    "ordly": "~1.0.0"
   },
   "resolutions": {
-    "backbone": "~1.1.2"
+    "backbone": "^1.3.3"
   }
 }

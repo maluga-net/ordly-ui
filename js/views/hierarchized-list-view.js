@@ -30,7 +30,9 @@ app.HierarchizedListView = Backbone.View.extend({
 
 	clear : function() {
 		"use strict";
-		this.model.destroy();
+		if (confirm("Are you sure?")) {
+			this.model.destroy();
+		}
 	},
 
 	addItem : function(hierarchizedListItem) {
@@ -62,22 +64,14 @@ app.HierarchizedListView = Backbone.View.extend({
 	createOnEnter : function(event) {
 		"use strict";
 		var $input = this.$(this.inputId);
-		var strategyName = app.AdditionStrategyFactory.STRATEGY_LAST;
-		
+
 		if (event.which !== ENTER_KEY || !$input.val().trim()) {
 			return;
 		}
 
-		//this.model.addItem($input.val().trim());
+		this.model.addItem($input.val().trim());
 		
-		// FIXME it's better to inject dependency
-		var strategyFactory = new app.AdditionStrategyFactory();
-		var strategy = strategyFactory.getStrategy(strategyName);
-		strategy.setList(this.model);
-		strategy.setItem($input.val().trim());
-		
-		app.HierarchizedLists.trigger('processStrategy', strategy);
-		
+
 		$input.val('');
 		app.logger.log('HierarchizedListView : createOnEnter');
 	},
