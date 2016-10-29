@@ -8,4 +8,12 @@ app.Logger = function(enable) {
 			console.log(message);
 		}
 	};
+	
+	this.logFunction = function() {
+		if (this.enabled) {
+			return console.log;
+		} else {
+			return function() {}
+		}
+	};
 };

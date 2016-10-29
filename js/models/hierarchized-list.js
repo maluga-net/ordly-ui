@@ -1,7 +1,7 @@
 var app = app || {};
 
-app.HierarchizedList = Backbone.Model.extend({
 
+app.HierarchizedList = Backbone.Model.extend({
 
 	defaults : {
 		'title' : new Date().toLocaleString(),
@@ -12,7 +12,6 @@ app.HierarchizedList = Backbone.Model.extend({
 		app.logger.log('HierarchizedList model : initialize');
 		// FIXME check why this event is fired twice if listenTo is used
 		this.listenToOnce(app.HierarchizedLists, 'itemRemoved', this.removeItem);
-		this.listenTo(app.HierarchizedLists, 'processStrategy', this.processStrategy);
 	},
 
 	validate : function(attributes) {
@@ -22,11 +21,22 @@ app.HierarchizedList = Backbone.Model.extend({
 	},
 
 	addItem : function(itemName) {
-		var items = this.get('items');
-		items[items.length] = itemName;
-		this.set('items', items);
 		this.set('lastItem', itemName);
-		this.save();
+		
+		var ordly = new app.ordly.Ordly(this.get('items'));
+		ordly.setLogger(app.logger.logFunction());
+		
+		var choose = ordly.add(itemName);
+		if(choose.length > 0) {
+
+			this.set('ordly', ordly);
+			this.set('choose', choose);
+			app.HierarchizedLists.trigger('choose', {choose : choose});
+		} else {
+		
+	        this.set('items', ordly.get());
+	 		this.save();
+		}
 		app.logger.log('HierarchizedList model : addItem');
 	},
 	
@@ -39,9 +49,20 @@ app.HierarchizedList = Backbone.Model.extend({
 		app.logger.log('HierarchizedList model : removeItem (' + item.get('name') + ')');
 	},
 	
-	processStrategy : function(strategy) {
+	choose: function(which) {
+		var chosen = this.get('choose')[which];
+		var ordly = this.get('ordly');
 		
-		app.logger.log('Processing strategy ' + typeof(strategy) + ' for item ' + strategy.item);
+		var choose = ordly.choose(chosen);
+		if(choose.length > 0) {
+
+			this.set('choose', choose);
+			app.HierarchizedLists.trigger('choose', {choose : choose});
+		} else {
+
+			this.set('items', ordly.get());
+	 		this.save();
+		}
 	}
 	
 });

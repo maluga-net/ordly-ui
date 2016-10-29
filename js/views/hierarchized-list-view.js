@@ -17,6 +17,8 @@ app.HierarchizedListView = Backbone.View.extend({
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 		this.listenTo(app.HierarchizedLists, 'showOne', this.removeOverride);
+		this.listenTo(app.HierarchizedLists, 'choose', this.choose);
+		this.listenTo(app.HierarchizedLists, 'handleChosen', this.handleChosen);
 		app.logger.log('HierarchizedListView : initialize');
 	},
 
@@ -81,6 +83,19 @@ app.HierarchizedListView = Backbone.View.extend({
 		app.logger.log('HierarchizedListView : removeOverride ('
 				+ this.model.get('title') + ')');
 		this.remove();
+	},
+	
+	choose: function(data) {
+		var view = new app.ChooseItemView({
+			model : data
+		});
+		
+		this.$('#choose').html(view.render().el);
+	},
+	
+	handleChosen: function(which) {
+		app.logger.log('Handle chosen ' + which);
+		this.model.choose(which);
 	}
 
 });

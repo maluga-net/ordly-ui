@@ -25,14 +25,27 @@
 	</script>
 
 	<script type="text/template" id="hierarchized-list-template">
-		<h2><%= title %></h2>
+		<h2>
+			<%= title %>
+		</h2>
 		<input id="new-hierarchized-list-item" placeholder="Name of the item" />
+		<div id="choose"></div>
 		<ul id="hierarchized-list-items">
 		</ul>
 	</script>
 	
 	<script type="text/template" id="hierarchized-list-item-template">
 		<li><%= name %> <span class="destroy">X<span></li>
+	</script>
+	
+	<script type="text/template" id="choose-item-template">
+		<form>
+			<fieldset>
+				<p>Choose which shoud go first</p>
+				<input type="button" class="one" value="<%= choose[0] %>" />
+				<input type="button" class="two" value="<%= choose[1] %>" /> 
+			</fieldset>
+		</form>
 	</script>
 
 	<script src="js/lib/jquery/dist/jquery.min.js"></script>
@@ -49,6 +62,7 @@
 
 	<script src="js/views/app-view.js"></script>
 	<script src="js/views/hierarchized-list-navigation-view.js"></script>
+	<script src="js/views/choose-item-view.js"></script>
 	<script src="js/views/hierarchized-list-item-view.js"></script>
 	<script src="js/views/hierarchized-list-view.js"></script>
 

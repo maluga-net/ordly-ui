@@ -2,7 +2,7 @@
 
 $(function(){
 	app.ordly = require('./lib/ordly/src/ordly.js');
-	app.logger = new app.Logger(CONSOLE_ENABLED);
+	app.logger = new app.Logger(COCONSOLE_ENABLED);
 	new app.AppView();
 });
 },{"./lib/ordly/src/ordly.js":2}],2:[function(require,module,exports){

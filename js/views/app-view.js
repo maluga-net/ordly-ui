@@ -1,5 +1,6 @@
 var app = app || {};
 
+/* global Backbone */
 app.AppView = Backbone.View.extend({
 
 	el : '#rarchy',
@@ -14,7 +15,6 @@ app.AppView = Backbone.View.extend({
 
 		this.listenTo(app.HierarchizedLists, 'add', this.addOne);
 		this.listenTo(app.HierarchizedLists, 'reset', this.addAll);
-		//this.listenTo(app.HierarchizedLists, 'all', this.render);
 		this.listenTo(app.HierarchizedLists, 'showOne', this.showOne);
 
 		app.HierarchizedLists.fetch();
@@ -47,7 +47,7 @@ app.AppView = Backbone.View.extend({
 
 	showOne : function(id) {
 		var hierarchizedList = app.HierarchizedLists.get(id);
-		view = new app.HierarchizedListView({
+		var view = new app.HierarchizedListView({
 			model : hierarchizedList
 		});
 		
@@ -65,6 +65,7 @@ app.AppView = Backbone.View.extend({
 	},
 
 	createOnEnter : function(event) {
+		/* global ENTER_KEY */
 		if (event.which !== ENTER_KEY || !this.$input.val().trim()) {
 			return;
 		}
