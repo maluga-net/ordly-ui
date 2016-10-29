@@ -17,6 +17,8 @@ app.HierarchizedListView = Backbone.View.extend({
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 		this.listenTo(app.HierarchizedLists, 'showOne', this.removeOverride);
+		this.listenTo(app.HierarchizedLists, 'choose', this.choose);
+		this.listenTo(app.HierarchizedLists, 'handleChosen', this.handleChosen);
 		app.logger.log('HierarchizedListView : initialize');
 	},
 
@@ -30,7 +32,9 @@ app.HierarchizedListView = Backbone.View.extend({
 
 	clear : function() {
 		"use strict";
-		this.model.destroy();
+		if (confirm("Are you sure?")) {
+			this.model.destroy();
+		}
 	},
 
 	addItem : function(hierarchizedListItem) {
@@ -62,22 +66,14 @@ app.HierarchizedListView = Backbone.View.extend({
 	createOnEnter : function(event) {
 		"use strict";
 		var $input = this.$(this.inputId);
-		var strategyName = app.AdditionStrategyFactory.STRATEGY_LAST;
-		
+
 		if (event.which !== ENTER_KEY || !$input.val().trim()) {
 			return;
 		}
 
-		//this.model.addItem($input.val().trim());
+		this.model.addItem($input.val().trim());
 		
-		// FIXME it's better to inject dependency
-		var strategyFactory = new app.AdditionStrategyFactory();
-		var strategy = strategyFactory.getStrategy(strategyName);
-		strategy.setList(this.model);
-		strategy.setItem($input.val().trim());
-		
-		app.HierarchizedLists.trigger('processStrategy', strategy);
-		
+
 		$input.val('');
 		app.logger.log('HierarchizedListView : createOnEnter');
 	},
@@ -87,6 +83,19 @@ app.HierarchizedListView = Backbone.View.extend({
 		app.logger.log('HierarchizedListView : removeOverride ('
 				+ this.model.get('title') + ')');
 		this.remove();
+	},
+	
+	choose: function(data) {
+		var view = new app.ChooseItemView({
+			model : data
+		});
+		
+		this.$('#choose').html(view.render().el);
+	},
+	
+	handleChosen: function(which) {
+		app.logger.log('Handle chosen ' + which);
+		this.model.choose(which);
 	}
 
 });

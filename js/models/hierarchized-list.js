@@ -1,11 +1,11 @@
 var app = app || {};
 
+
 app.HierarchizedList = Backbone.Model.extend({
 
 	defaults : {
 		'title' : new Date().toLocaleString(),
-		'items' : [],
-		'additionStrategy' : app.AdditionStrategyFactory.STRATEGY_LAST
+		'items' : []
 	},
 
 	initialize : function() {
@@ -21,11 +21,22 @@ app.HierarchizedList = Backbone.Model.extend({
 	},
 
 	addItem : function(itemName) {
-		var items = this.get('items');
-		items[items.length] = itemName;
-		this.set('items', items);
 		this.set('lastItem', itemName);
-		this.save();
+		
+		var ordly = new app.ordly.Ordly(this.get('items'));
+		ordly.setLogger(app.logger.logFunction());
+		
+		var choose = ordly.add(itemName);
+		if(choose.length > 0) {
+
+			this.set('ordly', ordly);
+			this.set('choose', choose);
+			app.HierarchizedLists.trigger('choose', {choose : choose});
+		} else {
+		
+	        this.set('items', ordly.get());
+	 		this.save();
+		}
 		app.logger.log('HierarchizedList model : addItem');
 	},
 	
@@ -36,6 +47,22 @@ app.HierarchizedList = Backbone.Model.extend({
 		this.set('lastItem', item.get('name'));
 		this.save();
 		app.logger.log('HierarchizedList model : removeItem (' + item.get('name') + ')');
+	},
+	
+	choose: function(which) {
+		var chosen = this.get('choose')[which];
+		var ordly = this.get('ordly');
+		
+		var choose = ordly.choose(chosen);
+		if(choose.length > 0) {
+
+			this.set('choose', choose);
+			app.HierarchizedLists.trigger('choose', {choose : choose});
+		} else {
+
+			this.set('items', ordly.get());
+	 		this.save();
+		}
 	}
 	
 });
